@@ -21,16 +21,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-
+import EditBudget from "../_components/EditBudget";
 
 const ExpensesScreen = () => {
   const { id } = useParams();
   const { user } = useUser();
   const [budgetInfo, setBudgetInfo] = useState(null);
   const [expensesList, setExpensesList] = useState([]);
-  const route=useRouter();
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -39,17 +39,8 @@ const ExpensesScreen = () => {
     }
   }, [user]);
 
-  /** Get Budget Information */
   const getBudgetInfo = async () => {
-    if (!id) {
-      console.error("Budget ID (id) is missing.");
-      return;
-    }
-
-    if (!user?.primaryEmailAddress?.emailAddress) {
-      console.error("User email is missing.");
-      return;
-    }
+    if (!id) return;
 
     try {
       const budgetId = parseInt(id, 10);
@@ -65,10 +56,8 @@ const ExpensesScreen = () => {
         .where(eq(Budgets.createdBy, user?.primaryEmailAddress.emailAddress))
         .where(eq(Budgets.id, budgetId))
         .groupBy(Budgets.id);
-      
-      setBudgetInfo(result[0]);
 
-      console.log("Budget Info:", result);
+      setBudgetInfo(result[0]);
       getExpensesList();
     } catch (error) {
       console.error("Error fetching budget info:", error);
@@ -77,55 +66,59 @@ const ExpensesScreen = () => {
     }
   };
 
-  /** Get Expenses List */
   const getExpensesList = async () => {
     const result = await db
       .select()
       .from(Expenses)
       .where(eq(Expenses.budgetId, id))
       .orderBy(desc(Expenses.id));
-    
+
     setExpensesList(result);
-    console.log(result);
   };
 
-/**used to delete budget */
-  const deleteBudget=async()=>{
-    const deleteExpenseResult=await db.delete(Expenses)
-    .where(eq(Expenses.budgetId,id))
-    .returning();
-
-    if(deleteExpenseResult){
-      const result=await db.delete(Budgets)
-      .where(eq(Budgets.id,id))
-      .returning();
+  const deleteBudget = async () => {
+    try {
+      await db.delete(Expenses).where(eq(Expenses.budgetId, id)).returning();
+      await db.delete(Budgets).where(eq(Budgets.id, id)).returning();
+      toast.success("Budget deleted!");
+      router.replace("/dashboard/budgets");
+    } catch (error) {
+      console.error("Error deleting budget:", error);
     }
-    toast("Budget Deleted!");
-    route.replace('/dashboard/budgets')
-  }
+  };
 
   return (
     <div className="p-10">
       <div className="flex items-center justify-between mb-6 gap-5">
-        <h2 className="text-2xl font-bold flex justify-between items-center">My Expenses</h2>
-              <AlertDialog>
-        <AlertDialogTrigger asChild>
-        <Button className='flex gap-2' variant='destructive'><Trash/>Delete</Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your current budget along with expenses and remove your data from the server.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={()=>deleteBudget()}> Continue</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
+        <h2 className="text-2xl font-bold">My Expenses</h2>
+        <div className="flex gap-2 items-center">
+          {budgetInfo && (
+            <EditBudget budgetInfo={budgetInfo} refreshData={getBudgetInfo} />
+          )}
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button className="flex gap-2" variant="destructive">
+                <Trash />
+                Delete
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. It will delete this budget and
+                  all associated expenses.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={deleteBudget}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
       </div>
 
       {loading ? (
@@ -133,11 +126,7 @@ const ExpensesScreen = () => {
       ) : budgetInfo ? (
         <div className="grid grid-cols-1 md:grid-cols-2 mt-6 gap-5">
           <BudgetItem budget={budgetInfo} />
-          <AddExpense
-            budgetId={id}
-            user={user}
-            refreshData={getBudgetInfo}
-          />
+          <AddExpense budgetId={id} user={user} refreshData={getBudgetInfo} />
         </div>
       ) : (
         <p>No budget information found.</p>
@@ -147,8 +136,8 @@ const ExpensesScreen = () => {
         <h2 className="font-bold text-lg">Latest Expense</h2>
         <ExpenseListTable
           expensesList={expensesList}
-          setExpensesList={setExpensesList} // Pass the setter function for expenses list
-          setBudgetInfo={setBudgetInfo} // Pass the setter for budgetInfo
+          setExpensesList={setExpensesList}
+          setBudgetInfo={setBudgetInfo}
         />
       </div>
     </div>
@@ -156,6 +145,7 @@ const ExpensesScreen = () => {
 };
 
 export default ExpensesScreen;
+
 
 
 

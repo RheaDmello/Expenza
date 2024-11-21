@@ -15,14 +15,13 @@ function ExpenseListTable({ expensesList, setExpensesList, setBudgetInfo }) {
         .returning();
 
       if (result) {
-        // Display a success toast message
+        
         toast("Expense Deleted");
 
-        // Update the local state to remove the deleted expense from the UI
         const updatedExpensesList = expensesList.filter((exp) => exp.id !== expense.id);
         setExpensesList(updatedExpensesList); // Directly update the expenses list in the parent
 
-        // Recalculate total spend for the budget and update the budgetInfo
+        // Recalculate 
         const totalSpend = updatedExpensesList.reduce((sum, current) => sum + parseFloat(current.amount), 0);
         setBudgetInfo((prev) => ({
           ...prev,

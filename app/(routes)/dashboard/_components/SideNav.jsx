@@ -29,7 +29,7 @@ function SideNav() {
         },
         {
             id: 4,
-            name: 'Upgrade',
+            name: 'About',//upgrade
             icon: ShieldCheck, // Ensure this is a valid React component
             path: '/dashboard/upgrade'
         }

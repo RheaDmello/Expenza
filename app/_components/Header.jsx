@@ -1,4 +1,4 @@
-"use client"; // This is needed for Client-Side rendering in Next.js
+"use client"; 
 
 import React from 'react';
 import Image from 'next/image';
@@ -8,7 +8,7 @@ import { UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 
 function Header() {
-  const { user, isSignedIn } = useUser(); // Get user and sign-in status from Clerk
+  const { user, isSignedIn } = useUser(); 
 
   return (
     <div className='p-5 flex justify-between items-center border shadow-sm'>
@@ -20,7 +20,7 @@ function Header() {
       />
       
       {isSignedIn ? (
-        <UserButton /> // Show the user button if the user is signed in
+        <UserButton /> 
       ) : (
         <Link href={'/sign-in'}>
           <Button>Get Started</Button> 
