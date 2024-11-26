@@ -7,8 +7,8 @@ import React, { useState } from 'react';
 import { toast } from 'sonner';
 
 function AddExpense({ budgetId, user, refreshData, onExpenseAdded = () => {} }) {
-  const [name, setName] = useState("");
-  const [amount, setAmount] = useState("");
+  const [name, setName] = useState(""); // State for expense name
+  const [amount, setAmount] = useState(""); // State for expense amount
   const [isSubmitting, setIsSubmitting] = useState(false); // Prevent multiple submissions
 
   const addNewExpense = async () => {
@@ -55,6 +55,10 @@ function AddExpense({ budgetId, user, refreshData, onExpenseAdded = () => {} }) 
         toast("New Expense Added!");
         refreshData(); // Refresh the data after successfully adding the expense
         onExpenseAdded(result); // Notify parent component
+
+        // Clear the input fields after successful addition
+        setName(""); // Clear expense name
+        setAmount(""); // Clear expense amount
       }
     } catch (error) {
       console.error("Error adding expense:", error);
@@ -99,3 +103,4 @@ function AddExpense({ budgetId, user, refreshData, onExpenseAdded = () => {} }) 
 }
 
 export default AddExpense;
+

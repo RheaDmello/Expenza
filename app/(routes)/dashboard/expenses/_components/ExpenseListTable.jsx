@@ -1,11 +1,10 @@
-import { db } from '@/utils/dbConfig';
-import { Expenses } from '@/utils/schema';
-import { eq } from 'drizzle-orm';
-import { Trash } from 'lucide-react';
-import React from 'react';
-import { toast } from 'sonner';
+import { db } from "@/utils/dbConfig";
+import { Expenses } from "@/utils/schema";
+import { eq } from "drizzle-orm";
+import { Trash } from "lucide-react";
+import { toast } from "sonner";
 
-function ExpenseListTable({ expensesList, setExpensesList, setBudgetInfo }) {
+function ExpenseListTable({ expensesList, refreshData, setBudgetInfo }) {
   const deleteExpense = async (expense) => {
     try {
       // Delete the expense from the database
@@ -15,18 +14,23 @@ function ExpenseListTable({ expensesList, setExpensesList, setBudgetInfo }) {
         .returning();
 
       if (result) {
-        
         toast("Expense Deleted");
 
-        const updatedExpensesList = expensesList.filter((exp) => exp.id !== expense.id);
-        setExpensesList(updatedExpensesList); // Directly update the expenses list in the parent
+        // Refresh data after deletion
+        if (refreshData) {
+          await refreshData();
+        }
 
-        // Recalculate 
-        const totalSpend = updatedExpensesList.reduce((sum, current) => sum + parseFloat(current.amount), 0);
-        setBudgetInfo((prev) => ({
-          ...prev,
-          totalSpend: totalSpend, // Update the total spend in the state
-        }));
+        // Optionally update budget info if needed
+        if (setBudgetInfo) {
+          const totalSpend = expensesList
+            .filter((exp) => exp.id !== expense.id) // Exclude deleted expense
+            .reduce((sum, current) => sum + parseFloat(current.amount), 0);
+          setBudgetInfo((prev) => ({
+            ...prev,
+            totalSpend,
+          }));
+        }
       }
     } catch (error) {
       console.error("Error deleting expense:", error);
@@ -60,4 +64,5 @@ function ExpenseListTable({ expensesList, setExpensesList, setBudgetInfo }) {
 }
 
 export default ExpenseListTable;
+
 

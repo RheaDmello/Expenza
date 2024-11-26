@@ -16,3 +16,13 @@ export const Expenses = pgTable('expense', {
   budgetId: integer('budgetId').references(() => Budgets.id),
   createdAt: varchar('createdAt').notNull(),
 });
+
+
+export const User = pgTable("user", {
+  user_id: serial("id").primaryKey(),
+  user_name: varchar("name").notNull(),
+  email: varchar("email").notNull(),
+  password: varchar("password").notNull(), // Handle password securely
+  created_date: varchar("created_date").notNull(),
+  updated_date: varchar("updated_date")
+});

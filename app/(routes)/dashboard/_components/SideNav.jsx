@@ -29,9 +29,9 @@ function SideNav() {
         },
         {
             id: 4,
-            name: 'About',//upgrade
-            icon: ShieldCheck, // Ensure this is a valid React component
-            path: '/dashboard/upgrade'
+            name: 'Goals',
+            icon: ShieldCheck, 
+            path: '/dashboard/goals'
         }
     ];
 
