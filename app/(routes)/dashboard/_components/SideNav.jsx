@@ -44,7 +44,7 @@ function SideNav() {
     return (
         <div className='h-screen p-5'>
             <Image 
-                src={'/logo.svg'} // Ensure the logo path is correct
+                src={'/logolight.png'} // Ensure the logo path is correct
                 alt='logo'
                 width={160}
                 height={100}

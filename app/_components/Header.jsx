@@ -12,8 +12,10 @@ function Header() {
 
   return (
     <div className='p-5 flex justify-between items-center border shadow-sm'>
+   
       <Image
-        src={'./logo.svg'}
+        // src={'./logo.svg'}
+        src='/logolight.png' 
         alt='logo'
         width={160}
         height={100}
@@ -31,3 +33,5 @@ function Header() {
 }
 
 export default Header;
+
+
