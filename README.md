@@ -1,4 +1,4 @@
-# Expense Tracker App
+# Expense Tracker - EXPENZA
 
 Welcome to the **Expense Tracker App - EXPENZA**, a modern, feature-rich tool to track and manage your expenses.
 
