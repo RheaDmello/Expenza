@@ -4,10 +4,10 @@ import Image from "next/image";
 function Hero() {
   return (
     <section className="bg-gray-50 flex items-center flex-col">
-  <div className="mx-auto max-w-screen-xl px-4 py-32 
+  <div className="mx-auto max-w-screen-xl px-4 py-10 
   lg:flex ">
     <div className="mx-auto max-w-xl text-center">
-      <h1 className="text-3xl font-extrabold sm:text-5xl">
+      <h1 className=" text-3xl font-extrabold sm:text-5xl">
         Manage Your Expense
         <strong className="font-extrabold text-primary sm:block"> Control Your Money. </strong>
       </h1>
@@ -28,7 +28,8 @@ function Hero() {
       </div>
     </div>
   </div>
-  <Image src={'/dashboardpic.png'} alt='dashboard'
+   <div className='mb-10'></div>
+  <Image src={'/dashboardnew.png'} alt='dashboard'
   width={1000}
   height={700}
   className='-mt-9 rounded-xl border-2 h-100 '

@@ -45,7 +45,7 @@ export default function Dashboard() {
   };
 
 
-  /**Used to get all expenses belonging to the user */
+ 
   const getAllExpenses=async()=>{
     const result=await db.select({
       id:Expenses.id,
@@ -85,9 +85,9 @@ export default function Dashboard() {
       </p>
       <CardInfo budgetList={budgetList} />
 
-      {/* Layout for chart and budgets */}
+     
       <div className="mt-12 flex flex-col md:flex-row gap-8">
-        {/* Left side: Chart */}
+      
         <div className="flex-1">
           <BarChartDashboard budgetList={budgetList} />
         
@@ -95,7 +95,6 @@ export default function Dashboard() {
         expensesList={expensesList}
         refreshData={()=>getBudgetList()}/></div>
 
-        {/* Right side: Budgets */}
         <div className="flex-1 flex flex-col space-y-5">
           <h2 className="font-bold text-lg">Latest Budget</h2>
           {budgetList.map((budget, index) => (

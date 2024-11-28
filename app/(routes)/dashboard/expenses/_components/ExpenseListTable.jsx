@@ -7,7 +7,7 @@ import { toast } from "sonner";
 function ExpenseListTable({ expensesList, refreshData, setBudgetInfo }) {
   const deleteExpense = async (expense) => {
     try {
-      // Delete the expense from the database
+      
       const result = await db
         .delete(Expenses)
         .where(eq(Expenses.id, expense.id))
@@ -16,15 +16,15 @@ function ExpenseListTable({ expensesList, refreshData, setBudgetInfo }) {
       if (result) {
         toast("Expense Deleted");
 
-        // Refresh data after deletion
+        
         if (refreshData) {
           await refreshData();
         }
 
-        // Optionally update budget info if needed
+        
         if (setBudgetInfo) {
           const totalSpend = expensesList
-            .filter((exp) => exp.id !== expense.id) // Exclude deleted expense
+            .filter((exp) => exp.id !== expense.id) 
             .reduce((sum, current) => sum + parseFloat(current.amount), 0);
           setBudgetInfo((prev) => ({
             ...prev,
@@ -54,7 +54,7 @@ function ExpenseListTable({ expensesList, refreshData, setBudgetInfo }) {
           <h2>
             <Trash
               className="text-red-600 cursor-pointer"
-              onClick={() => deleteExpense(expense)} // Delete on click
+              onClick={() => deleteExpense(expense)} 
             />
           </h2>
         </div>

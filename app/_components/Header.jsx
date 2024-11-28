@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import React from 'react';
 import Image from 'next/image';
@@ -11,13 +11,11 @@ function Header() {
   const { user, isSignedIn } = useUser(); 
 
   return (
-    <div className='p-5 flex justify-between items-center border shadow-sm'>
-   
+    <div className='p-5 flex justify-between items-center shadow-sm'>
       <Image
-        // src={'./logo.svg'}
-        src='/logolight.png' 
+        src='/golden.png' 
         alt='logo'
-        width={160}
+        width={200}
         height={100}
       />
       
@@ -33,5 +31,3 @@ function Header() {
 }
 
 export default Header;
-
-

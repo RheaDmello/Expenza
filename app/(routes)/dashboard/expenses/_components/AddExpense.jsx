@@ -7,31 +7,29 @@ import React, { useState } from 'react';
 import { toast } from 'sonner';
 
 function AddExpense({ budgetId, user, refreshData, onExpenseAdded = () => {} }) {
-  const [name, setName] = useState(""); // State for expense name
-  const [amount, setAmount] = useState(""); // State for expense amount
-  const [isSubmitting, setIsSubmitting] = useState(false); // Prevent multiple submissions
+  const [name, setName] = useState("");
+  const [amount, setAmount] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); 
 
   const addNewExpense = async () => {
-    // Validate the amount to ensure it's a valid number
+    
     if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
       console.error("Invalid amount:", amount);
       toast.error("Please enter a valid amount.");
       return;
     }
 
-    // Prevent further submissions if already submitting
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    // Validate the budgetId
+   
     if (isNaN(budgetId) || budgetId === "") {
       console.error("Invalid budget ID", budgetId);
       toast.error("Invalid budget ID.");
-      setIsSubmitting(false); // Reset submitting state
+      setIsSubmitting(false); 
       return;
     }
 
-    // Validate the user data (Ensure user and email are defined)
     if (!user?.primaryEmailAddress?.emailAddress) {
       console.error("User email is missing", user);
       toast.error("User email is missing.");
@@ -44,27 +42,27 @@ function AddExpense({ budgetId, user, refreshData, onExpenseAdded = () => {} }) 
         .insert(Expenses)
         .values({
           name: name,
-          amount: parseFloat(amount), // Ensure amount is stored as a number
+          amount: parseFloat(amount), 
           budgetId: budgetId,
           createdAt: moment().format('DD/MM/YYYY'),
         })
-        .returning({ insertedId: Budgets.id }); // Assuming Budgets.id returns the correct value
+        .returning({ insertedId: Budgets.id }); 
 
       console.log(result);
       if (result) {
         toast("New Expense Added!");
-        refreshData(); // Refresh the data after successfully adding the expense
-        onExpenseAdded(result); // Notify parent component
+        refreshData(); 
+        onExpenseAdded(result); 
 
-        // Clear the input fields after successful addition
-        setName(""); // Clear expense name
-        setAmount(""); // Clear expense amount
+       
+        setName(""); 
+        setAmount(""); 
       }
     } catch (error) {
       console.error("Error adding expense:", error);
       toast.error("Failed to add expense.");
     } finally {
-      setIsSubmitting(false); // Reset submitting state after completion
+      setIsSubmitting(false); 
     }
   };
 
