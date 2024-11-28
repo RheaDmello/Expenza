@@ -25,7 +25,7 @@ Welcome to the **Expense Tracker App - EXPENZA**, a modern, feature-rich tool to
 ![dahsboard with ex](https://github.com/user-attachments/assets/a9d15df7-befd-4309-8e21-a2a16c1a581a)
 
 ### Add Expenses
-![image](https://github.com/user-attachments/assets/046acf3d-3373-4cf3-a649-313d9f1c11ab)
+![image](https://github.com/user-attachments/assets/703f2abc-e010-4ab9-9b67-a80881d6027f)
 
 ### Expenses Entry
 ![expenses](https://github.com/user-attachments/assets/160560af-69a8-4d6f-aad1-7292d53121e2)
