@@ -18,13 +18,20 @@ export const Expenses = pgTable('expense', {
 });
 
 
-export const User = pgTable("user", {
-  user_id: serial("id").primaryKey(),
-  user_name: varchar("name").notNull(),
-  email: varchar("email").notNull(),
-  password: varchar("password").notNull(), 
-  created_date: varchar("created_date").notNull(),
-  updated_date: varchar("updated_date")
+// export const User = pgTable("user", {
+//   user_id: serial("id").primaryKey(),
+//   user_name: varchar("name").notNull(),
+//   email: varchar("email").notNull(),
+//   password: varchar("password").notNull(), 
+//   created_date: varchar("created_date").notNull(),
+//   updated_date: varchar("updated_date")
+// });
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  clerkId: text('clerk_id').notNull(),
+  firstName: text('first_name'),
+  lastName: text('last_name'),
+  email: text('email').notNull(),
 });
 
 
