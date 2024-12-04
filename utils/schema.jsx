@@ -1,4 +1,5 @@
-import { varchar, serial, integer, numeric,text } from "drizzle-orm/pg-core";  
+import { Name } from "drizzle-orm";
+import { varchar, serial, integer, numeric, text } from "drizzle-orm/pg-core";  
 import { pgTable } from "drizzle-orm/pg-core";
 
 export const Budgets = pgTable('Budgets', {
@@ -17,27 +18,16 @@ export const Expenses = pgTable('expense', {
   createdAt: varchar('createdAt').notNull(),
 });
 
-
-// export const User = pgTable("user", {
-//   user_id: serial("id").primaryKey(),
-//   user_name: varchar("name").notNull(),
-//   email: varchar("email").notNull(),
-//   password: varchar("password").notNull(), 
-//   created_date: varchar("created_date").notNull(),
-//   updated_date: varchar("updated_date")
-// });
 export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
-  clerkId: text('clerk_id').notNull(),
-  firstName: text('first_name'),
-  lastName: text('last_name'),
-  email: text('email').notNull(),
+  id: serial('id').primaryKey(),  // Primary key for the users table
+  Name: text('user_name'),
+  email: text('email').notNull().unique(),  // Make email unique
 });
-
 
 export const Notes = pgTable("Goals", {
   id: serial("id").primaryKey(),
   content: text("content").notNull(), 
   created_at: varchar("created_at").notNull(),
   updated_at: varchar("updated_at")
+  
 });
